@@ -1,3 +1,5 @@
+import { Logger } from '@vue-storefront/core/src/types';
+
 const config = {
   publicKey: null,
   ckoWebHookUrl: 'https://play-commercetools.cko-playground.ckotech.co/api',
@@ -6,7 +8,8 @@ const config = {
   card: {
     styles: {},
     localization: null
-  }
+  },
+  logger: null
 };
 
 interface Configuration {
@@ -18,6 +21,7 @@ interface Configuration {
     styles?: any;
     localization?: string | CustomLocalization;
   };
+  logger?: Logger;
 }
 
 interface CustomLocalization {
@@ -53,6 +57,7 @@ const setup = (params: Configuration) => {
   config.card.styles = params.card?.styles || defaultStyles;
   config.card.localization = params.card?.localization || null;
   config.tokenizedCardKey = params.tokenizedCardKey || config.tokenizedCardKey;
+  config.logger = params.logger || console as Logger;
 };
 
 const getPublicKey = () => config.publicKey;
@@ -62,5 +67,6 @@ const getFramesStyles = () => config.card.styles;
 const getFramesLocalization = () => config.card.localization;
 const getTransactionTokenKey = () => config.tokenizedCardKey;
 const getSaveInstrumentKey = () => config.saveInstrumentKey;
+const getLogger = () => config.logger;
 
-export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, Configuration };
+export { setup, getPublicKey, getCkoWebhookUrl, getFramesStyles, getFramesLocalization, getCkoProxyUrl, getTransactionTokenKey, getSaveInstrumentKey, getLogger, Configuration };

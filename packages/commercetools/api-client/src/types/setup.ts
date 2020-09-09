@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { ApolloClientOptions } from 'apollo-client';
+import { Logger } from '@vue-storefront/core/src/types';
 
 export interface ApiConfig {
   uri: string;
@@ -50,6 +51,7 @@ export interface SetupConfig<TCacheShape> {
   cookies?: CookiesConfig;
   auth?: Auth;
   forceToken?: boolean;
+  logger?: Logger;
 }
 
 export interface CustomerCredentials {

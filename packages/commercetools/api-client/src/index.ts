@@ -1,6 +1,7 @@
 import ApolloClient from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { SetupConfig, Auth, ApiConfig, Token } from './types/setup';
+import { Logger } from '@vue-storefront/core/src/types';
 import createCommerceToolsLink from './helpers/createCommerceToolsLink';
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
@@ -44,6 +45,7 @@ let cookies = {
   localeCookieName: 'vsf-locale'
 };
 let languageMap = {};
+let logger = console as Logger;
 
 const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
   api = setupConfig.api || api;
@@ -56,13 +58,14 @@ const setup = <TCacheShape>(setupConfig: SetupConfig<TCacheShape>): ApolloClient
   cookies = setupConfig.cookies || cookies;
   auth = setupConfig.auth || auth;
   currentToken = setupConfig.forceToken ? setupConfig.currentToken : setupConfig.currentToken || currentToken;
+  logger = setupConfig.logger || logger;
 
   languageMap = setupConfig.languageMap || languageMap;
   acceptLanguage = languageMap[locale] || setupConfig.acceptLanguage || acceptLanguage;
 
   if (setupConfig.api) {
     apolloClient = new ApolloClient({
-      link: createCommerceToolsLink(),
+      link: createCommerceToolsLink(logger),
       cache: new InMemoryCache(),
       ...setupConfig.customOptions
     });
@@ -105,5 +108,6 @@ export {
   applyCartCoupon,
   removeCartCoupon,
   getMyOrders,
-  customerChangeMyPassword
+  customerChangeMyPassword,
+  logger
 };

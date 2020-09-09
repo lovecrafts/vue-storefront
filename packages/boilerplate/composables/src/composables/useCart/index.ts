@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
+import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core/src';
 import { ref, Ref } from '@vue/composition-api';
 import { Cart, CartItem, Coupon, Product } from '../../types';
 

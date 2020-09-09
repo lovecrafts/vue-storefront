@@ -5,8 +5,9 @@ import fetch from 'isomorphic-fetch';
 import createAccessToken from './../createAccessToken';
 import { api, currentToken, auth } from './../../index';
 import { onError } from 'apollo-link-error';
+import { Logger } from '@vue-storefront/core/src/types';
 
-const createCommerceToolsLink = (): ApolloLink => {
+const createCommerceToolsLink = (logger: Logger): ApolloLink => {
   const httpLink = createHttpLink({ uri: api.uri, fetch });
   const authLink = setContext(async (_, { headers }) => {
     const token = await createAccessToken({ currentToken });
@@ -26,13 +27,13 @@ const createCommerceToolsLink = (): ApolloLink => {
         const parsedLocations = locations.map(({ column, line }) => `[column: ${column}, line: ${line}]`);
 
         if (!message.includes('Resource Owner Password Credentials Grant')) {
-          console.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
+          logger.error(`[GraphQL error]: Message: ${message}, Location: ${parsedLocations.join(', ')}, Path: ${path}`);
         }
       });
     }
 
     if (networkError) {
-      console.error(`[Network error]: ${networkError}`);
+      logger.error(`[Network error]: ${networkError}`);
     }
   });
 

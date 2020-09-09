@@ -1,3 +1,5 @@
+import { Logger } from '@vue-storefront/core/src/types';
+
 export interface Auth {
   username: string;
   password: string;
@@ -22,4 +24,5 @@ export interface SetupConfig {
   countries?: LocaleItem[];
   currencies?: LocaleItem[];
   locales?: LocaleItem[];
+  logger?: Logger;
 }
